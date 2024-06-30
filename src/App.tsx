@@ -1,4 +1,4 @@
-import { Sku, SkuGoods, Counter } from './core'
+import { Sku, SkuGoods, Counter, ImgPreview } from './core'
 // import axios from 'axios'
 
 // const App = () => {
@@ -29,9 +29,7 @@ import { Sku, SkuGoods, Counter } from './core'
 // }
 
 const App = () => {
-  return (
-    <Counter initialCount={2} onCountChange={(count) => console.log(count)} />
-  )
+  return <ImgPreview />
 }
 
 export default App
