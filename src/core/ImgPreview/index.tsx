@@ -3,16 +3,8 @@ import { imgPreviewClass } from './style'
 import { useMouse } from 'react-use'
 import { getBgPos } from './util'
 
-const imgList = [
-  'https://yanxuan-item.nosdn.127.net/a68a4385df27f8664b318364f4cdae08.jpg',
-  'https://yanxuan-item.nosdn.127.net/9563e807278f8ea35bb4356bfd583e22.jpg',
-  'https://yanxuan-item.nosdn.127.net/ba5ca0e5d39a714540b554a6b547e3a3.jpg',
-  'https://yanxuan-item.nosdn.127.net/714eb0cc1cdb64608f7ce25b4c5ab600.jpg',
-  'https://yanxuan-item.nosdn.127.net/d0394c83f5e195d26e7c76dcbef6c217.jpg',
-]
-
 const useIsOutside = (ref: MutableRefObject<Element | null>) => {
-  const [isOutside, setIsOutside] = useState(false)
+  const [isOutside, setIsOutside] = useState(true)
   const mouseenterHandler = () => setIsOutside(false)
   const mouseleaveHandler = () => setIsOutside(true)
 
@@ -28,7 +20,13 @@ const useIsOutside = (ref: MutableRefObject<Element | null>) => {
   return isOutside
 }
 
-const ImgPreview = () => {
+type Props = {
+  imgList: string[]
+}
+
+const ImgPreview = (props: Props) => {
+  const { imgList } = props
+
   const [activeIndex, setActiveIndex] = useState(0)
   const ref = useRef<HTMLDivElement | null>(null)
   const { elX, elY } = useMouse(ref)
@@ -39,6 +37,7 @@ const ImgPreview = () => {
       {!isOutside && (
         <div
           className="large"
+          data-testid="large"
           style={{
             backgroundImage: `url(${imgList[activeIndex]})`,
             backgroundPositionX: posX + 'px',
@@ -46,8 +45,8 @@ const ImgPreview = () => {
           }}
         ></div>
       )}
-      <div className="middle" ref={ref}>
-        <img src={imgList[activeIndex]} alt="" />
+      <div className="middle" ref={ref} data-testid="middle">
+        <img src={imgList[activeIndex]} alt="middleImg" />
         {!isOutside && (
           <div
             className="layer"
@@ -60,7 +59,11 @@ const ImgPreview = () => {
       </div>
       <ul className="small">
         {imgList.map((url, index) => (
-          <li key={index} onMouseEnter={() => setActiveIndex(index)}>
+          <li
+            data-testid={`small-${index}`}
+            key={index}
+            onMouseEnter={() => setActiveIndex(index)}
+          >
             <img src={url} alt="" />
           </li>
         ))}
