@@ -2,12 +2,13 @@ import { useState } from 'react'
 import { CounterClass } from './style'
 
 type Props = {
-  initialCount: number
+  initialCount?: number
+  min?: number
   onCountChange?: (count: number) => void
 }
 
 const Counter = (props: Props) => {
-  const { initialCount = 1, onCountChange } = props
+  const { initialCount = 1, min = 0, onCountChange } = props
   const [count, setCount] = useState(() => initialCount)
 
   const inc = () => {
@@ -16,8 +17,9 @@ const Counter = (props: Props) => {
   }
 
   const des = () => {
+    if (count === min) return
     setCount(count - 1)
-    onCountChange && onCountChange(count + 1)
+    onCountChange && onCountChange(count - 1)
   }
 
   return (
